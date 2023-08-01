@@ -1,6 +1,7 @@
 import app from './server.js'
 import mongodb from "mongodb"
 import dotenv from "dotenv"
+import MovieDAO from './dao/moviesDAO.js'
 
 // Main Function to help connect to our MongoDB cluster and call functions that access our database
 async function main(){
@@ -20,6 +21,9 @@ async function main(){
         // Connect to MongoDB cluster
         await client.connect()
         console.log(`DB Connected!`);
+
+        // Get initial reference to the movies collection in the database.
+        await MovieDAO.injectDB(client);
 
         //
         app.listen(port, ()=>{
