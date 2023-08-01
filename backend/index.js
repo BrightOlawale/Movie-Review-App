@@ -30,7 +30,12 @@ async function main(){
             console.log(`Server running on PORT: ${port}`);
         })
     } catch (error) {
-        console.error(error);
+        console.error("An error occurred during the application execution:", error);
+        // If the MongoDB connection was established, close it
+        if (client) {
+            await client.close();
+        }
+        // Exit the application
         process.exit(1);
     }
 }
