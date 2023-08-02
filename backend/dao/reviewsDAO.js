@@ -26,4 +26,25 @@ export default class ReviewsDAO{
             console.error(`ReviewDAO: Unable to connect: ${error}`)
         }
     }
+
+    // Create a static method to add new review to the MongoDB database
+    static async addReview(movieId, userInfo, review, date){
+        try {
+            // Create review object that will be created in the reviews collection
+            const reviewObject = {
+                name: userInfo.name,
+                user_id: userInfo._id,
+                date: date,
+                review: review,
+                movie_id: ObjectId(movieId)
+            }
+
+            // Return the created object
+            return await review.insertOne(reviewObject)
+        } catch (err) {
+            // Log error to console
+            console.error(`Unable to add review: ${err}`)
+            return {error: err}
+        }
+    }
 }
