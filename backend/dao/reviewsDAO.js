@@ -47,4 +47,31 @@ export default class ReviewsDAO{
             return {error: err}
         }
     }
+
+    // Create a static method to update a review in the MongoDB database
+    static async updateReview(userId, reviewId, review, date){
+        try {
+            // Create a filter to find the review to update
+            const filter = {
+                user_id: userId,
+                _id: ObjectId(reviewId)
+            }
+
+            // Create a document that sets the updated review and date
+            const updateReview = {
+                $set: {
+                    review: review,
+                    date: date
+                }
+            }
+
+            // Update the review in the reviews collection by using the filter and updateReview objects
+            // and return it
+            return await reviews.updateOne(filter, updateReview)
+        } catch (err) {
+            // Log error to console
+            console.error(`Unable to update review: ${err}`)
+            return {error: err}
+        }
+    }
 }
