@@ -18,12 +18,12 @@ export default class ReviewController {
 
             // Now pass the movie_id, review, userInfo and date to the addReview static method of the ReviewsDAO class
             // and store the returned object in reviewResponse object variable
-            const reviewResponse = await ReviewsDAO.addReview({
+            const reviewResponse = await ReviewsDAO.addReview(
                 movieId,
                 review,
                 userInfo,
                 date
-            })
+            )
 
             // Now create a response object to send back to the client if query was successful
             const response = {
@@ -50,13 +50,13 @@ export default class ReviewController {
             // Create date object for review
             const date = new Date()
 
-            // Now put the reviewId, review and date in an object and pass it to the updateReview static method of the ReviewsDAO class
+            // Now pass the reviewId, review and date to the updateReview static method of the ReviewsDAO class
             // and store the returned object in reviewResponse object variable
-            const reviewResponse = await ReviewsDAO.updateReview({
+            const reviewResponse = await ReviewsDAO.updateReview(
                 reviewId,
                 review,
                 date
-            })
+            )
 
             // Check if reviewResponse object variable returned from the ReviewsDAO class is null
             // If it is null, send a response to the client
@@ -81,7 +81,34 @@ export default class ReviewController {
             // Send the response object back to the client ans send status code
             res.status(200).json(response)
         } catch (err) {
-            
+            // If there is an error, log it to the console and send a response to the client
+            console.error(`Error while processing the request: ${err}`)
+            res.status(500).json({ error: err.message })
+        }
+    }
+
+    // Create static method to handles the API request to delete a review
+    static async apiDeleteReview(req, res) {
+        try {
+            // Retrieve reviewId and userId from the request body
+            const reviewId = req.body.review_id
+            const userId = req.body.user_id
+
+            // Now, pass the reviewId and userId to the deleteReview static method of the ReviewsDAO class
+            // and store the returned object in reviewResponse object variable
+            const reviewResponse = await ReviewsDAO.deleteReview(reviewId, userId)
+
+            // Create a response object to send back to the client if query was successful
+            const response = {
+                status: "success"
+            }
+
+            // Send the response object back to the client ans send status code
+            res.status(200).json(response)
+        } catch (err) {
+            // If there is an error, log it to the console and send a response to the client
+            console.error(`Error while processing the request: ${err}`)
+            res.status(500).json({ error: err.message })
         }
     }
 }
