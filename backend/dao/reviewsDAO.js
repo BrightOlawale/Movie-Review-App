@@ -74,4 +74,23 @@ export default class ReviewsDAO{
             return {error: err}
         }
     }
+
+    // Create a static method to delete a review from the MongoDB database
+    static async deleteReview(userId, reviewId){
+        try{
+            // Create a filter to find the review to delete
+            const filter = {
+                user_id: userId,
+                _id: ObjectId(reviewId)
+            }
+
+            // Delete the review from the reviews collection by using the filter
+            // and return it
+            return await reviews.deleteOne(filter)
+        } catch (err) {
+            // Log error to console
+            console.error(`Unable to delete review: ${err}`)
+            return {error: err}
+        }
+    }
 }
