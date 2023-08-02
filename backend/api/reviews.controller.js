@@ -43,7 +43,8 @@ export default class ReviewController {
     // Create static method to handles the API request to update a review
     static async apiUpdateReview(req, res) {
         try {
-            // Retrieve reviewId and review from the request body
+            // Retrieve userId reviewId and review  from the request body
+            const userId = req.body.user_id
             const reviewId = req.body.review_id
             const review = req.body.review
 
@@ -53,6 +54,7 @@ export default class ReviewController {
             // Now pass the reviewId, review and date to the updateReview static method of the ReviewsDAO class
             // and store the returned object in reviewResponse object variable
             const reviewResponse = await ReviewsDAO.updateReview(
+                userId,
                 reviewId,
                 review,
                 date
