@@ -68,4 +68,22 @@ export default class MovieDAO {
       return { moviesList: [], totalNumMovies: 0 }
     }
   }
+
+  // Creating static method of the MovieDAO class to get a list of movie ratings from the MongoDB database.
+  static async getRatings () {
+    try{
+      // Create variable of empty array to store the list of the kinds of ratings available for movies
+      let ratings = []
+
+      // Use the distinct method to retrieve the list of the kinds of ratings available for movies
+      ratings = await movies.distinct("rated")
+
+      // Return the array of ratings
+      return ratings
+    } catch (error) {
+      // Log error to console and return rating as empty array
+      console.error(`Unable to get ratings: ${error}`)
+      return ratings
+    }
+  }
 };
