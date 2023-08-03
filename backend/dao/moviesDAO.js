@@ -1,3 +1,8 @@
+import mongodb from 'mongodb'
+
+// Create a variable to store a reference to the MongoDB ObjectId class
+const ObjectId = mongodb.ObjectId
+
 // Variable to store the reference to the MongoDB collection called 'movies'
 let movies
 
@@ -84,6 +89,57 @@ export default class MovieDAO {
       // Log error to console and return rating as empty array
       console.error(`Unable to get ratings: ${error}`)
       return ratings
+    }
+  }
+
+  // Creating static method of the MovieDAO class to get a movie by its id from the MongoDB database.
+  static async getMovieById (id) {
+    try {
+      // We will use aggregation pipeline to retrieve a movie by its id
+      // The aggregation pipeline is a framework for data aggregation modeled on the concept of data processing pipelines.
+      // Documents enter a multi-stage pipeline that transforms the documents into an aggregated result.
+      // For example, a pipeline could include a stage for filtering documents, a stage for grouping documents,
+      // a stage for summing grouped values, and so on.
+      // The pipeline provides efficient data aggregation using native operations within MongoDB,
+      // and is the preferred method for data aggregation in MongoDB.
+      // The aggregation pipeline can operate on a sharded collection.
+      // The aggregation pipeline processes documents in stages.
+      // Pipeline stages do not need to produce one output document for every input document;
+      // e.g., some stages may generate new documents or filter out documents.
+
+
+      // NB: Here we are using the $match and $lookup operators to retrieve a movie by its id.
+      // The $match operator filters the documents to pass only the documents that match the specified condition(s) to the next pipeline stage.
+      // The $lookup operator performs a left outer join to an unsharded collection in the same database to filter in documents from the “joined” collection for processing.
+
+      // In the first stage of the pipeline, we use the $match operator to find the movie by its id
+      // and assign the result to the variable called pipeline
+      const pipeline = [
+        {
+          $match: {
+            _id: new ObjectId(id)
+          }
+        },
+        {
+          // In the second stage of the pipeline, we use the $lookup operator to join the movies collection with the reviews collection
+          // and assign the result to the variable called pipeline
+          $lookup: {
+            from: 'reviews',
+            localField: '_id',
+            foreignField: 'movie_id',
+            as: 'reviews'
+          }
+        },
+      ]
+
+      // We use the aggregate method to perform the aggregation pipeline on the movies collection
+      // and call the next method  returns the first document that matches the _id provided. 
+      // This is because _id is unique, and we expect at most one match.
+      // and return the result
+      return await movies.aggregate(pipeline).next()
+    } catch(error) {
+      console.error(`Unable to get movie: ${error}`)
+      return null
     }
   }
 };
