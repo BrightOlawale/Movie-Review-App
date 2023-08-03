@@ -79,4 +79,26 @@ export default class MovieController {
       res.status(500).json({ error: error.message })
     }
   }
+
+  // Create static method to handles the API request to get a list of movie ratings
+  static async apiGetMovieRatings (req, res) {
+    try{
+      // Call the getMovieRatings static method of the MovieDAO class and store the returned object in movieRatings object variable
+      // The movieRatings object variable will contain the list of movie ratings
+      const movieRatings = await MovieDAO.getRatings()
+
+      // Now create a response object to send back to the client if query was successful
+      const response = {
+        success: true,
+        movieRatings: movieRatings
+      }
+
+      // Send the response object back to the client and send status code
+      res.status(200).json(response)
+    } catch(error){
+      // If there is an error, log it to the console and send a response to the client
+      console.error(`Error while processing the request: ${error}`)
+      res.status(500).json({ error: error.message })
+    }
+  }
 }
