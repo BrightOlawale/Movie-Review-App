@@ -47,4 +47,36 @@ export default class MovieController {
       res.status(500).json({ error: error.message })
     }
   }
+
+  // Create static method to handles the API request to get a movie by id
+  static async apiGetMovieById (req, res) {
+    try{
+      // Retrieve id from the request parameters if present else set it to an empty object
+      // The empty object will be used to return all movies
+      const id = req.params.id ? req.params.id : {}
+
+      // Now pass the id to the getMovieById static method of the MovieDAO class and store the returned object in movie object variable
+      const movie = await MovieDAO.getMovieById(id)
+
+      // Check if movie object is empty
+      // If it is empty, send a response to the client and return
+      if (!movie) {
+        res.status(404).json({ error: 'Not found' })
+        return
+      }
+
+      // Now create a response object to send back to the client if query was successful
+      const response = {
+        success: true,
+        movie: movie
+      }
+
+      // Send the response object back to the client ans send status code
+      res.status(200).json(response)
+    } catch (error) {
+      // If there is an error, log it to the console and send a response to the client
+      console.error(`Error while processing the request: ${error}`)
+      res.status(500).json({ error: error.message })
+    }
+  }
 }
