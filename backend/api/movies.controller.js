@@ -81,7 +81,7 @@ export default class MovieController {
   }
 
   // Create static method to handles the API request to get a list of movie ratings
-  static async apiGetMovieRatings (req, res) {
+  static async apiGetRatings (req, res) {
     try{
       // Call the getMovieRatings static method of the MovieDAO class and store the returned array in movieRatings variable
       // The movieRatings variable will contain an of movie ratings
