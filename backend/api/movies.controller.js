@@ -61,7 +61,7 @@ export default class MovieController {
       // Check if movie object is empty
       // If it is empty, send a response to the client and return
       if (!movie) {
-        res.status(404).json({ error: 'Not found' })
+        res.status(404).json({ error: 'Movie not found' })
         return
       }
 
