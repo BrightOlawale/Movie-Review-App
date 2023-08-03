@@ -28,7 +28,7 @@ export default class ReviewsDAO{
     }
 
     // Create a static method to add new review to the MongoDB database
-    static async addReview(movieId, userInfo, review, date){
+    static async addReview(movieId, review, userInfo, date){
         try {
             // Create review object that will be created in the reviews collection
             const reviewObject = {
@@ -36,11 +36,11 @@ export default class ReviewsDAO{
                 user_id: userInfo._id,
                 date: date,
                 review: review,
-                movie_id: ObjectId(movieId)
+                movie_id: new ObjectId(movieId)
             }
 
             // Return the created object
-            return await review.insertOne(reviewObject)
+            return await reviews.insertOne(reviewObject)
         } catch (err) {
             // Log error to console
             console.error(`Unable to add review: ${err}`)
@@ -54,7 +54,7 @@ export default class ReviewsDAO{
             // Create a filter to find the review to update
             const filter = {
                 user_id: userId,
-                _id: ObjectId(reviewId)
+                _id: new ObjectId(reviewId)
             }
 
             // Create a document that sets the updated review and date
@@ -76,12 +76,12 @@ export default class ReviewsDAO{
     }
 
     // Create a static method to delete a review from the MongoDB database
-    static async deleteReview(userId, reviewId){
+    static async deleteReview(reviewId, userId){
         try{
             // Create a filter to find the review to delete
             const filter = {
                 user_id: userId,
-                _id: ObjectId(reviewId)
+                _id: new ObjectId(reviewId)
             }
 
             // Delete the review from the reviews collection by using the filter
