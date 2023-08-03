@@ -2,6 +2,7 @@ import app from './server.js'
 import mongodb from "mongodb"
 import dotenv from "dotenv"
 import MovieDAO from './dao/moviesDAO.js'
+import ReviewsDAO from './dao/reviewsDAO.js'
 
 // Main Function to help connect to our MongoDB cluster and call functions that access our database
 async function main(){
@@ -24,6 +25,9 @@ async function main(){
 
         // Get initial reference to the movies collection in the database.
         await MovieDAO.injectDB(client);
+
+        // Get initial reference to the reviews collection in the database.
+        await ReviewsDAO.injectDB(client);
 
         //
         app.listen(port, ()=>{
