@@ -1,4 +1,5 @@
-import logo from './logo.svg';
+// import logo from './logo.svg';
+import React from 'react';
 import './App.css';
 import AddReview from './components/add-review';
 import Movie from './components/movie';
@@ -28,7 +29,7 @@ function App() {
   return (
     <div className='App'>
       <Navbar bg='light' expand='lg'>
-        <Navbar.Brand href='#home'>Movie Reviews</Navbar.Brand>
+        <Navbar.Brand>Movie Reviews</Navbar.Brand>
         <Navbar.Toggle aria-controls='basic-navbar-nav' />
         <Navbar.Collapse id='basic-navbar-nav'>
           <Nav className='mr-auto'>
@@ -43,6 +44,12 @@ function App() {
           </Nav>
         </Navbar.Collapse>
       </Navbar>
+      <Switch>
+        <Route exact path={["/", "/movies"]} component={MovieList} />
+        <Route path="/movies/:id/review" render={(props) => (<AddReview {...props} user={user} />)} />
+        <Route path="/movies/:id" render={(props) => (<Movie {...props} user={user} />)} />
+        <Route path="/login" render={(props) => (<Login {...props} login={login} />)} />
+      </Switch>
     </div>
   );
 }
