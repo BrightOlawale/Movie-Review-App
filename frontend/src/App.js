@@ -15,6 +15,16 @@ import { Switch, Route, Link } from 'react-router-dom';
 
 
 function App() {
+  const [user, setUser] = React.useState(null)
+
+  async function login(user = null){
+    setUser(user)
+  }
+
+  async function logout(){
+    setUser(null)
+  }
+
   return (
     <div className='App'>
       <Navbar bg='light' expand='lg'>
@@ -27,7 +37,7 @@ function App() {
           </Nav.Link>
           <Nav.Link>
             {/*  If user is logged in, show logout button, else show login button  */}
-            {user ? (<a>Logout User</a>): (<Link to={"/login"}>Login</Link>)
+            {user ? (<a onClick={logout}>Logout User</a>): (<Link to={"/login"}>Login</Link>)
             }
           </Nav.Link>
           </Nav>
