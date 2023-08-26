@@ -27,8 +27,7 @@ export default class ReviewController {
 
             // Now create a response object to send back to the client if query was successful
             const response = {
-                status: "success",
-                review: reviewResponse
+                status: "success"
             }
 
             // Send the response object back to the client ans send status code
@@ -76,8 +75,7 @@ export default class ReviewController {
 
             // Now create a response object to send back to the client if query was successful
             const response = {
-                status: "success",
-                review: reviewResponse
+                status: "success"
             }
 
             // Send the response object back to the client ans send status code

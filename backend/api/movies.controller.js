@@ -34,8 +34,8 @@ export default class MovieController {
       // Now create a response object to send back to the client if query was successful
       const response = {
         movies: moviesList,
-        page,
-        filters,
+        page: page,
+        filters: filters,
         entries_per_page: moviesPerPage,
         total_results: totalNumMovies
       }
@@ -67,8 +67,7 @@ export default class MovieController {
 
       // Now create a response object to send back to the client if query was successful
       const response = {
-        success: true,
-        movie: movie
+        movie
       }
 
       // Send the response object back to the client ans send status code
@@ -87,14 +86,9 @@ export default class MovieController {
       // The movieRatings variable will contain an of movie ratings
       const movieRatings = await MovieDAO.getRatings()
 
-      // Now create a response object to send back to the client if query was successful
-      const response = {
-        success: true,
-        movieRatings: movieRatings
-      }
 
       // Send the response object back to the client and send status code
-      res.status(200).json(response)
+      res.status(200).json(movieRatings)
     } catch(error){
       // If there is an error, log it to the console and send a response to the client
       console.error(`Error while processing the request: ${error}`)
